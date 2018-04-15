@@ -238,8 +238,5 @@ return [
         'list_rows' => 15,
     ],
 
-    'SESSION_OPTIONS' => array(
-        'prefix' => 'think',
-        'expire' => 1,
-    ),
+
 ];

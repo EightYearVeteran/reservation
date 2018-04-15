@@ -9,8 +9,11 @@
 namespace app\api\controller\v1;
 
 
+use app\lib\Exception\ParameterException;
 use app\lib\Exception\WrongPasswordException;
 use think\Controller;
+use think\Loader;
+use think\Validate;
 use think\Session;
 use app\Validate\loginValidate;
 use app\lib\Exception\UnregisterException;

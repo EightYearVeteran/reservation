@@ -16,7 +16,7 @@ use think\Validate;
 class loginValidate extends Validate
 {
     protected $rule = [
-        ['username', 'isNotEmpty'],
+        ['username', 'require'],
         ['password', 'require']
     ];
 
@@ -29,20 +29,12 @@ class loginValidate extends Validate
     {
         $request = Request::instance();
         $params = $request->param();
-        $result = $this->batch()->check($params);
+        $result = $this->check($params);
 
         if (!$result) {
             throw new ParameterException(['message' => $this->getError()]);
         } else {
             return true;
         }
-    }
-
-    protected function isNotEmpty($value, $rule = '', $data = '', $field = '')
-    {
-        if (empty($value)) {
-            return $field . '不能为空';
-        }
-        return true;
     }
 }
