@@ -8,6 +8,7 @@
 
 namespace app\lib\Exception;
 
+use Exception;
 use think\exception\Handle;
 use think\Request;
 
@@ -18,20 +19,28 @@ class ExceptionHandler extends Handle
     private $errorCode;
 
 
-    public function render(\Exception $e) // \Exception是原生Exception
+    /**
+     * @param Exception $e
+     * @return \think\Response|\think\response\Json
+     * 异常接管
+     */
+    public function render(Exception $e) // \Exception是原生Exception
     {
 
         if ($e instanceof BaseException) { // 自定义已知的错误
+
             $this->code = $e->code;
             $this->errorCode = $e->errorCode;
             $this->message = $e->message;
 
         } else {
-            if (config('app_debug')) { // 调试阶段就用原生
+
+            if (config('app_debug')) { // 调试阶段就用原生渲染界面
 
                 return parent::render($e);
 
-            } else { // 上线就返回json, 且是服务器内部未知错误
+            } else { // 上线就返回json, 且是服务器内部未知错误, 已定义异常之外的异常
+
                 $this->code = 500;
                 $this->errorCode = 999;
                 $this->message = "服务器内部错误><";
