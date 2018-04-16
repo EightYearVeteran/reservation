@@ -77,7 +77,7 @@ GitHub 提供了 Issue 功能，该功能可以用于：
 
 ### 开发环境
 
-* XAMPP for Windows 5.5.x
+
 * WampServer (for Windows)
 * upupw Apache PHP5.4 ( for Windows)
 
