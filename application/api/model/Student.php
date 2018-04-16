@@ -30,4 +30,13 @@ class Student extends Model
 
         else return $res_student;
     }
+
+    public function insertStudent($username, $name, $password)
+    {
+        return $this->data([
+            'student_number' => $username,
+            'password' => $password,
+            'name' => $name
+        ])->save();
+    }
 }

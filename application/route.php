@@ -13,3 +13,4 @@
 use think\Route;
 
 Route::post("api/:version/student/login", "api/:version.Student/login");
+Route::post("api/:version/student/register", "api/:version.Student/register");

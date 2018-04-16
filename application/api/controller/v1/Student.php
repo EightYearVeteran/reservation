@@ -9,21 +9,40 @@
 namespace app\api\controller\v1;
 
 
-use app\lib\Exception\ParameterException;
 use app\lib\Exception\WrongPasswordException;
+use app\Validate\RegisterValidate;
 use think\Controller;
-use think\Loader;
-use think\Validate;
 use think\Session;
-use app\Validate\loginValidate;
+use app\Validate\LoginValidate;
 use app\lib\Exception\UnregisterException;
+use app\lib\Exception\SuccessMessage;
 use app\api\model\Student as StudentModel;
+
 
 class Student extends Controller
 {
-
-    public function register($username, $password)
+    /**
+     * @param $username
+     * @param $name
+     * @param $password
+     * @throws SuccessMessage
+     * @throws WrongPasswordException
+     * @throws \app\lib\Exception\BaseException
+     * @throws \app\lib\Exception\NullPasswordException
+     * @throws \app\lib\Exception\NullUsernameException
+     * @throws \app\lib\Exception\WrongUsernameException
+     * 防止重复注册
+     */
+    public function register($username, $name, $password)
     {
+        // TODO:查询学号是否已经存在, 学号唯一标识学生
+
+        (new RegisterValidate())->checkUp();
+
+        $studentModel = new StudentModel();
+
+        if ($studentModel->insertStudent($username, $name, $password)) // 返回成功插入条数
+            throw new SuccessMessage();
 
     }
 
@@ -37,7 +56,7 @@ class Student extends Controller
      */
     public function login($username = '', $password = '')
     {
-        (new loginValidate())->checkUp();
+        (new LoginValidate())->checkUp();
 
         $username = (string)$username;
 

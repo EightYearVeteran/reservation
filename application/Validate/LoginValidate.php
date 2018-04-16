@@ -10,10 +10,8 @@ namespace app\Validate;
 
 
 use app\lib\Exception\ParameterException;
-use think\Request;
-use think\Validate;
 
-class loginValidate extends Validate
+class loginValidate extends BaseValidate
 {
     protected $rule = [
         ['username', 'require'],
@@ -21,15 +19,14 @@ class loginValidate extends Validate
     ];
 
     protected $message = [
-        'username.require' => '登录名为空',
+        'username.require' => '学号为空',
         'password.require' => '密码为空'
     ];
 
     public function checkUp()
     {
-        $request = Request::instance();
-        $params = $request->param();
-        $result = $this->check($params);
+
+        $result = $this->check($this->params());
 
         if (!$result) {
             throw new ParameterException(['message' => $this->getError()]);

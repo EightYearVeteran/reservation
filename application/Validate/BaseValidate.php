@@ -15,6 +15,8 @@ use think\Validate;
 
 class BaseValidate extends Validate
 {
+    protected $errorCode;
+
     public function goCheck()
     {
         $request = Request::instance();
@@ -32,6 +34,18 @@ class BaseValidate extends Validate
 
     }
 
+
+    /**
+     * 获取请求参数
+     * @return mixed
+     */
+    public function params()
+    {
+        $request = Request::instance();
+        $params = $request->param();
+
+        return $params;
+    }
 
     protected function isNotEmpty($value, $rule, $data, $field)
     {
