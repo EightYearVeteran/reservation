@@ -14,7 +14,7 @@ use think\Exception;
 class BaseException extends Exception
 {
     public $code = 500;
-    public $message = 'unknown mistake';
+    public $errorMessage = 'unknown mistake';
     public $errorCode = 999;
 
 
@@ -28,8 +28,8 @@ class BaseException extends Exception
         if (array_key_exists('errorCode', $params))
             $this->errorCode = $params['errorCode'];
 
-        if (array_key_exists('message', $params))
-            $this->message = $params['message'];
+        if (array_key_exists('errorMessage', $params))
+            $this->errorMessage = $params['errorMessage'];
     }
 
 }

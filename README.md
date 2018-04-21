@@ -19,6 +19,7 @@
 www  WEB部署目录（或者子目录）
 ├─application           应用目录
 │  ├─common             公共模块目录（可以更改）
+│  │
 │  ├─module_name        模块目录
 │  │  ├─config.php      模块配置文件
 │  │  ├─common.php      模块函数文件
@@ -26,6 +27,11 @@ www  WEB部署目录（或者子目录）
 │  │  ├─model           模型目录
 │  │  ├─view            视图目录
 │  │  └─ ...            更多类库目录
+│  │
+│  ├─lib
+│     ├─exception       已知异常     
+│  │
+│  ├─Validate           验证器
 │  │
 │  ├─command.php        命令行工具配置文件
 │  ├─common.php         公共函数文件

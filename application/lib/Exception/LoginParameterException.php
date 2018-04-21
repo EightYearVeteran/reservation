@@ -9,11 +9,11 @@
 namespace app\lib\Exception;
 
 
-class ParameterException extends BaseException
+class LoginParameterException extends BaseException
 {
     public $code = 400;
-    public $message = "参数错误";
-    public $errorCode = 10000;
+    public $errorMessage = "参数错误";
+    public $errorCode = 2005;
 
 
 }

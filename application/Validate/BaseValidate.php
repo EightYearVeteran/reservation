@@ -22,30 +22,15 @@ class BaseValidate extends Validate
         $request = Request::instance();
         $params = $request->param();
 
-        $result = $this->batch()->check($params);
+        $result = $this->batch()->check($params); // 逐条检查, 返回的错误信息是当前检测错误的一条信息
 
         if (!$result) {
-            throw new BaseException([
-                'message' => '参数错误',
-            ]);
-        } else {
-            return true;
+            return $this->getError();
         }
 
+        return null;
     }
 
-
-    /**
-     * 获取请求参数
-     * @return mixed
-     */
-    public function params()
-    {
-        $request = Request::instance();
-        $params = $request->param();
-
-        return $params;
-    }
 
     protected function isNotEmpty($value, $rule, $data, $field)
     {

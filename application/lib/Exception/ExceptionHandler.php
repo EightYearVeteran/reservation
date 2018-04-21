@@ -15,7 +15,7 @@ use think\Request;
 class ExceptionHandler extends Handle
 {
     private $code;
-    private $message;
+    private $errorMessage;
     private $errorCode;
 
 
@@ -24,14 +24,14 @@ class ExceptionHandler extends Handle
      * @return \think\Response|\think\response\Json
      * 异常接管
      */
-    public function render(Exception $e) // \Exception是原生Exception
+    public function render(Exception $e)
     {
 
         if ($e instanceof BaseException) { // 自定义已知的错误
 
             $this->code = $e->code;
             $this->errorCode = $e->errorCode;
-            $this->message = $e->message;
+            $this->errorMessage = $e->errorMessage;
 
         } else {
 
@@ -51,7 +51,7 @@ class ExceptionHandler extends Handle
         $request = Request::instance();
 
         $result = [
-            'message' => $this->message,
+            'message' => $this->errorMessage,
             'errorCode' => $this->errorCode,
             'url' => $request->url()
         ];

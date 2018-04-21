@@ -13,5 +13,5 @@ class SuccessMessage extends BaseException
 {
     public $code = 200;
     public $errorCode = 10000;
-    public $message = '操作成功';
+    public $errorMessage = '操作成功';
 }

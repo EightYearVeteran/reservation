@@ -8,48 +8,44 @@
 
 namespace app\Validate;
 
-
-use app\lib\Exception\BaseException;
-use app\lib\Exception\NullNameException;
-use app\lib\Exception\NullPasswordException;
-use app\lib\Exception\NullUsernameException;
-use app\lib\Exception\WrongPasswordException;
-use app\lib\Exception\WrongUsernameException;
+use app\lib\Exception\RegisterParameterException;
 
 class RegisterValidate extends BaseValidate
 {
     protected $rule = [
         'username' => 'require|length:9',
         'password' => 'require|min:6',
-        'name' => 'require'
+        'name' => 'require',
+        'college' => 'require',
+        'specialty' => 'require',
+        'email' => 'email',
+        'phone' => 'length:11',
+        'question' => 'require',
+        'answer' => 'require'
     ];
 
     protected $message = [
         'username.require' => '学号为空',
-        'password.require' => '密码为空',
-        'name.require' => '姓名为空',
         'username.length' => '学号不符合要求',
-        'password.min' => '密码长度至少为6位'
+        'password.require' => '密码为空',
+        'password.min' => '密码长度至少为6位',
+        'name.require' => '姓名为空',
+        'college.require' => '院系选择为空',
+        'specialty.require' => '所在专业选择为空',
+        'email.email' => '邮箱格式不正确',
+        'phone.length' => '手机号码不正确',
+        'question.require' => '请输入重置密码时的问题',
+        'answer.require' => '请输入重置密码时问题的答案'
     ];
+
 
     public function checkUp()
     {
-        $result = $this->check($this->params());
+        $errormsg = $this->goCheck();
 
-        if (!$result) {
-            $errormsg = $this->getError();
-            if ($errormsg == '学号为空')
-                throw new NullUsernameException();
-            else if ($errormsg == '密码为空')
-                throw new NullPasswordException();
-            else if ($errormsg == '姓名为空')
-                throw new NullNameException();
-            else if ($errormsg == '学号不符合要求')
-                throw new WrongUsernameException();
-            else if ($errormsg == '密码长度至少为6位')
-                throw new WrongPasswordException(['message' => $errormsg, 'errorCode' => 2007]);
-            else
-                throw new BaseException();
-        }
+        if ($errormsg != null)
+            throw new RegisterParameterException(['errorMessage' => $errormsg]);
+
     }
+
 }

@@ -9,9 +9,9 @@
 namespace app\Validate;
 
 
-use app\lib\Exception\ParameterException;
+use app\lib\Exception\LoginParameterException;
 
-class loginValidate extends BaseValidate
+class LoginValidate extends BaseValidate
 {
     protected $rule = [
         ['username', 'require'],
@@ -25,11 +25,10 @@ class loginValidate extends BaseValidate
 
     public function checkUp()
     {
+        $errormsg = $this->goCheck();
 
-        $result = $this->check($this->params());
-
-        if (!$result) {
-            throw new ParameterException(['message' => $this->getError()]);
+        if ($errormsg != null) {
+            throw new LoginParameterException(['errorMessage' => $errormsg]);
         } else {
             return true;
         }
