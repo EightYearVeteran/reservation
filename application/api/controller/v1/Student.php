@@ -17,11 +17,11 @@ use app\lib\Exception\MustLoginException;
 use app\lib\Exception\SuccessMessage;
 use app\lib\Exception\FailMessage;
 
-use app\Validate\CheckQuestionParameterValidate;
-use app\Validate\LogoutValidate;
-use app\Validate\RegisterValidate;
-use app\Validate\LoginValidate;
-use app\Validate\UsernameValidate;
+use app\validate\CheckQuestionParameterValidate;
+use app\validate\LogoutValidate;
+use app\validate\RegisterValidate;
+use app\validate\LoginValidate;
+use app\validate\UsernameValidate;
 
 use app\api\model\Student as StudentModel;
 use think\Controller;

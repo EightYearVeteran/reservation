@@ -6,7 +6,7 @@
  * Time: 14:01
  */
 
-namespace app\Validate;
+namespace app\validate;
 
 use app\lib\Exception\UsernameParameterException;
 

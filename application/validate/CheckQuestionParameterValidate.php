@@ -6,7 +6,7 @@
  * Time: 11:00
  */
 
-namespace app\Validate;
+namespace app\validate;
 
 
 use app\lib\Exception\WrongAnswerException;

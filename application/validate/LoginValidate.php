@@ -6,7 +6,7 @@
  * Time: 17:29
  */
 
-namespace app\Validate;
+namespace app\validate;
 
 
 use app\lib\Exception\LoginParameterException;

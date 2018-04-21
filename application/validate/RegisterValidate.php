@@ -6,7 +6,7 @@
  * Time: 15:39
  */
 
-namespace app\Validate;
+namespace app\validate;
 
 use app\lib\Exception\RegisterParameterException;
 

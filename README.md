@@ -31,7 +31,7 @@ www  WEB部署目录（或者子目录）
 │  ├─lib
 │     ├─exception       已知异常     
 │  │
-│  ├─Validate           验证器
+│  ├─validate           验证器
 │  │
 │  ├─command.php        命令行工具配置文件
 │  ├─common.php         公共函数文件

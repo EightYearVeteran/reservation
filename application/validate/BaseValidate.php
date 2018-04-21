@@ -6,10 +6,9 @@
  * Time: 17:40
  */
 
-namespace app\Validate;
+namespace app\validate;
 
 
-use app\lib\Exception\BaseException;
 use think\Request;
 use think\Validate;
 
