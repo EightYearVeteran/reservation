@@ -4,6 +4,8 @@
 
 
 > ThinkPHP5的运行环境要求PHP5.4以上。
+
+
 ##开发环境
 * XAMPP for Windows 5.5.x
 * PHPStorm2017.3.2
@@ -11,6 +13,7 @@
 * PHP7
 * Apache
 * GitBash
+
 ## 目录结构
 
 初始的目录结构如下：
