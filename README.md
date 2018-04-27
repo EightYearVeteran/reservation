@@ -6,7 +6,7 @@
 > ThinkPHP5的运行环境要求PHP5.4以上。
 
 
-##开发环境
+## 开发环境
 * XAMPP for Windows 5.5.x
 * PHPStorm2017.3.2
 * mysql  Ver 15.1 Distrib 10.1.26-MariaDB, for Win32 (AMD64)

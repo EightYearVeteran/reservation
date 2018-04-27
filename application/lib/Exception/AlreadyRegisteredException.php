@@ -13,5 +13,5 @@ class AlreadyRegisteredException extends BaseException
 {
     public $code = 400;
     public $errorCode = 2004;
-    public $message = '学号已经被注册过';
+    public $errorMessage = '学号已经被注册过';
 }

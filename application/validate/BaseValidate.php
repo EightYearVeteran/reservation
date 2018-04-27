@@ -21,7 +21,7 @@ class BaseValidate extends Validate
         $request = Request::instance();
         $params = $request->param();
 
-        $result = $this->batch()->check($params); // 逐条检查, 返回的错误信息是当前检测错误的一条信息
+        $result = $this->batch()->check($params);
 
         if (!$result) {
             return $this->getError();

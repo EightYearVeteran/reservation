@@ -49,6 +49,7 @@ class Student extends Controller
      * @param string $question
      * @param string $answer
      * @throws AlreadyRegisteredException
+     * @throws FailMessage
      * @throws SuccessMessage
      * @throws \app\lib\Exception\RegisterParameterException
      */
@@ -61,7 +62,13 @@ class Student extends Controller
         //TODO: 用户自定义头像上传
         if ($studentModel->notRegistered($username)) {
             if ($studentModel->insertStudent($username, $name, $password, $nickname, $college, $specialty, $email, $phone, $question, $answer)) // return the number of inert items
-                throw new SuccessMessage();
+                throw new SuccessMessage([
+                    'errorMessage' => '注册成功'
+                ]);
+            else
+                throw new FailMessage([
+                    'errorMessage' => '注册失败'
+                ]);
         } else {
             throw new AlreadyRegisteredException();
         }
@@ -92,10 +99,10 @@ class Student extends Controller
         } else { // if cannot find username in session
 
             $studentModel = new StudentModel();
-            $res = $studentModel->isExist($username, $password);
-            $student_number = $res->getData('student_number');
+            $res = $studentModel->isExist($username, $password); // $username = $student_number
+//            $student_number = $res->getData('student_number');
 
-            Session::set($student_number, $res);
+            Session::set($username, $res);
 //            \session(['name' => $student_number, 'expire' => 1]); // set session expire time but not work
             return $res;
         }
