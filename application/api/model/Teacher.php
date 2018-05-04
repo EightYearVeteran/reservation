@@ -17,6 +17,16 @@ class Teacher extends Model
 {
     protected $autoWriteTimeStamp = true;
 
+    public function college()
+    {
+        return $this->belongsTo("College", "college_id", "college_id");
+    }
+
+    public function specialty()
+    {
+        return $this->belongsTo("Specialty", "specialty_id", "specialty_id");
+    }
+
     public function notRegister($teacher_number)
     {
         $res = $this->where('teacher_number', '=', $teacher_number)->find();
@@ -24,13 +34,17 @@ class Teacher extends Model
         return false;
     }
 
-    public function insertTeacher($teacher_number, $password, $name, $nickname)
+    public function insertTeacher($teacher_number, $password, $name, $nickname, $college, $specialty, $email, $phone)
     {
         return $this->data([
             'teacher_number' => $teacher_number,
             'password' => $password,
             'name' => $name,
-            'nickname' => $nickname
+            'nickname' => $nickname,
+            'college_id' => $college,
+            'specialty_id' => $specialty,
+            'email' => $email,
+            'phone' => $phone
         ])->save();
     }
 
@@ -44,5 +58,24 @@ class Teacher extends Model
         else if (count($res_teacher) == 0) throw new WrongPasswordException();
 
         else return $res_teacher;
+    }
+
+    public function queryAllTeachers($college_id)
+    {
+        $visible_array = ['name', 'email', 'phone', 'college', 'specialty'];
+
+        if (empty($college_id))
+            return $this->with(['college', 'specialty'])->select()->visaible($visible_array);
+
+        return $this->with(['college', 'specialty'])
+            ->where('college_id', '=', $college_id)
+            ->select()
+            ->visible($visible_array);
+
+    }
+
+    public function reserveTeacher()
+    {
+
     }
 }

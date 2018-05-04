@@ -16,7 +16,7 @@ class RegisterValidate extends BaseValidate
 {
     protected $rule = [
         'teacher_number' => 'require',
-        'password' => 'require|length:6',
+        'password' => 'require',
         'name' => 'require',
     ];
 

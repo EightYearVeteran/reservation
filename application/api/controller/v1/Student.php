@@ -24,6 +24,8 @@ use app\validate\LoginValidate;
 use app\validate\UsernameValidate;
 
 use app\api\model\Student as StudentModel;
+use app\api\model\FreetimeFreeplace as FreetimeFreeplaceModel;
+
 use think\Controller;
 use think\Session;
 
@@ -301,4 +303,12 @@ class Student extends Controller
             throw new MustLoginException();
         }
     }
+
+    public function queryTeacherFreeTime($teacher_id)
+    {
+        $freeTimeFreePlaceModel = new FreetimeFreeplaceModel();
+        return $freeTimeFreePlaceModel->queryItem($teacher_id);
+    }
+
+
 }
