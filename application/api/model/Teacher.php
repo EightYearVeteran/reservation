@@ -16,6 +16,7 @@ use think\Model;
 class Teacher extends Model
 {
     protected $autoWriteTimeStamp = true;
+    protected $hidden = ['create_time', 'update_time', 'delete_time'];
 
     public function college()
     {
@@ -62,7 +63,7 @@ class Teacher extends Model
 
     public function queryAllTeachers($college_id)
     {
-        $visible_array = ['name', 'email', 'phone', 'college', 'specialty'];
+        $visible_array = ['teacher_number', 'name', 'email', 'phone', 'college', 'specialty'];
 
         if (empty($college_id))
             return $this->with(['college', 'specialty'])->select()->visaible($visible_array);

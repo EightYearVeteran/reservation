@@ -25,6 +25,7 @@ use app\validate\UsernameValidate;
 
 use app\api\model\Student as StudentModel;
 use app\api\model\FreetimeFreeplace as FreetimeFreeplaceModel;
+use app\api\model\StudentTeacher as StudentTeacherModel;
 
 use think\Controller;
 use think\Session;
@@ -304,11 +305,39 @@ class Student extends Controller
         }
     }
 
+    /**
+     * @param $teacher_id
+     * @return mixed
+     *
+     * 查询指定老师的空闲时间
+     */
     public function queryTeacherFreeTime($teacher_id)
     {
-        $freeTimeFreePlaceModel = new FreetimeFreeplaceModel();
-        return $freeTimeFreePlaceModel->queryItem($teacher_id);
+        return (new FreetimeFreeplaceModel())->queryItem($teacher_id);
     }
 
+    public function reserveTeacher($student_id, $teacher_id, $freeplace_freetime_id)
+    {
+        //TODO: 达到最大学生数量就不能再预约
+        $studentTeacherModel = new StudentTeacherModel();
+
+        if ($studentTeacherModel->insertItem($student_id, $teacher_id, $freeplace_freetime_id))
+            throw new SuccessMessage([
+                'errorMessage' => '预约成功'
+            ]);
+        else
+            throw new FailMessage([
+                'errorMessage' => '预约失败'
+            ]);
+    }
+
+    /**
+     * @param $student_id
+     * @return mixed
+     */
+    public function queryReservation($student_id)
+    {
+        return (new StudentTeacherModel())->queryItem($student_id);
+    }
 
 }

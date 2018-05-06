@@ -22,7 +22,9 @@ Route::post("api/:version/student/reset_forget_password", "api/:version.Student/
 Route::post("api/:version/student/reset_password", "api/:version.Student/resetPassword");
 Route::post("api/:version/student/logout", "api/:version.Student/logout");
 Route::get("api/:version/student/get_teacher_freetime", "api/:version.Student/queryTeacherFreeTime");
-Route::post("api/:version/student/reserve_teacher", "api/:version.Student/queryTeacherFreeTime");
+Route::post("api/:version/student/reserve_teacher", "api/:version.Student/reserveTeacher");
+Route::get("api/:version/student/query_reservation", "api/:version.Student/queryReservation");
+
 
 // teacher
 Route::post("api/:version/teacher/register", "api/:version.Teacher/register");

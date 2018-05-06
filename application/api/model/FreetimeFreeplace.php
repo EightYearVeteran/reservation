@@ -53,7 +53,7 @@ class FreetimeFreeplace extends Model
 
     public function queryItem($teacher_id)
     {
-        $visible_array = ['freetime.start_time', 'freetime.end_time', 'freeplace.freeplace', 'max_student', 'detail', 'memo'];
+        $visible_array = ['freeplace_freetime_id', 'freetime.start_time', 'freetime.end_time', 'freeplace.freeplace', 'max_student', 'detail', 'memo'];
         return $this->with(['freetime', 'freeplace'])->where('teacher_id', '=', $teacher_id)->select()->visible($visible_array);
     }
 }

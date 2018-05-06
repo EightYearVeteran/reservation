@@ -171,8 +171,7 @@ class Teacher extends Controller
 
     public function getAllPlaces()
     {
-        $freePlaceModel = new FreePlaceModel();
-        return $freePlaceModel->queryAllPlace();
+        return (new FreePlaceModel())->queryAllPlace();
     }
 
     /**
