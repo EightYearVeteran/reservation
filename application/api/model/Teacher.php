@@ -75,8 +75,9 @@ class Teacher extends Model
 
     }
 
-    public function reserveTeacher()
-    {
 
+    public function queryTeacherByName($teacher_name)
+    {
+        return $this->where('name', '=', $teacher_name)->select();
     }
 }

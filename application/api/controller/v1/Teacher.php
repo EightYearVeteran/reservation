@@ -16,11 +16,12 @@ use app\lib\Exception\teacher\AlreadyRegisteredException;
 use app\lib\Exception\WrongAnswerException;
 use app\validate\teacher\RegisterValidate;
 use app\validate\teacher\LoginValidate;
+
 use app\api\model\Teacher as TeacherModel;
 use app\api\model\FreePlace as FreePlaceModel;
 use app\api\model\FreeTime as FreeTimeModel;
 use app\api\model\FreetimeFreeplace as FreetimeFreeplaceModel;
-
+use app\api\model\StudentTeacher as StudentTeacherModel;
 use app\validate\teacher\UsernameValidate;
 use think\Controller;
 use think\Request;
@@ -195,12 +196,11 @@ class Teacher extends Controller
      */
     public function updateReserving()
     {
-
     }
 
-    public function queryReserving()
+    public function queryReservation($teacher_id)
     {
-
+        return (new StudentTeacherModel())->queryItem($teacher_id, false);
     }
 
     public function notifyMessage()

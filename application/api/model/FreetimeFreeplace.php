@@ -51,9 +51,23 @@ class FreetimeFreeplace extends Model
         return $this->belongsTo("FreeTime", "freetime_id", "freetime_id");
     }
 
-    public function queryItem($teacher_id)
+    public function queryItem($id, $is_place_time_id = false)
     {
         $visible_array = ['freeplace_freetime_id', 'freetime.start_time', 'freetime.end_time', 'freeplace.freeplace', 'max_student', 'detail', 'memo'];
-        return $this->with(['freetime', 'freeplace'])->where('teacher_id', '=', $teacher_id)->select()->visible($visible_array);
+
+        if ($is_place_time_id)
+            return $this->with(['freetime', 'freeplace'])->where('freeplace_freetime_id', '=', $id)->find()->visible(['max_student']);
+
+        return $this->with(['freetime', 'freeplace'])->where('teacher_id', '=', $id)->select()->visible($visible_array);
+    }
+
+    public function updateCurrentNum($freeplace_freetime_id, $current)
+    {
+        $res = $this->where('freeplace_freetime_id', '=', $freeplace_freetime_id)->update(['current_student' => $current]);
+
+        if ($res == 1)
+            return true;
+        else
+            return false;
     }
 }

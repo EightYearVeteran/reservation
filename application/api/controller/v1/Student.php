@@ -28,6 +28,7 @@ use app\api\model\FreetimeFreeplace as FreetimeFreeplaceModel;
 use app\api\model\StudentTeacher as StudentTeacherModel;
 
 use think\Controller;
+use think\Request;
 use think\Session;
 
 //define('RIGHT_ANSWER', 1);
@@ -316,19 +317,51 @@ class Student extends Controller
         return (new FreetimeFreeplaceModel())->queryItem($teacher_id);
     }
 
-    public function reserveTeacher($student_id, $teacher_id, $freeplace_freetime_id)
+    public function reserveTeacher()
     {
-        //TODO: 达到最大学生数量就不能再预约
+        //TODO: 达到最大学生数量就不能再预约, 2个操作: ① 修改freeplace_freetime表中的current_student值 ② 向student_teacher表添加一条预约记录
+        $params = Request::instance()->post();
+        $timeplaceModel = new FreetimeFreeplaceModel();
         $studentTeacherModel = new StudentTeacherModel();
+        $errmsg = array();
 
-        if ($studentTeacherModel->insertItem($student_id, $teacher_id, $freeplace_freetime_id))
-            throw new SuccessMessage([
-                'errorMessage' => '预约成功'
-            ]);
+        foreach ($params as $item) {
+            $freeplace_freetime_id = $item['freeplace_freetime_id'];
+            $teacher_id = $item['teacher_id'];
+            $student_id = $item['student_id'];
+
+            $res = $timeplaceModel->queryItem($freeplace_freetime_id, true)->getData();
+
+            $max = $res['max_student'];
+            $current = $res['current_student'];
+
+            if ($current == $max) {
+                array_push($errmsg, ['errorMessage' => 'freeplace_freetime_id为' . $freeplace_freetime_id . '教工号为' . $teacher_id . '已达到最多预约人数']);
+                continue;
+            }
+
+
+            if ($timeplaceModel->updateCurrentNum($freeplace_freetime_id, ++$current)) { // 如果添加人数成功就添加预约记录
+                $studentTeacherModel->insertItem($student_id, $teacher_id, $freeplace_freetime_id);
+            } else { // 否则记录错误信息
+                array_push($errmsg, ['errorMessage' => 'freeplace_freetime_id为' . $freeplace_freetime_id . '教工号为' . $teacher_id . '预约失败']);
+            }
+        }
+
+        if (empty($errmsg))
+            throw new SuccessMessage(['errorMessage' => '预约成功']);
         else
-            throw new FailMessage([
-                'errorMessage' => '预约失败'
-            ]);
+            throw new FailMessage(['errorMessage' => $errmsg]);
+
+
+//        if ($studentTeacherModel->insertItem($student_id, $teacher_id, $freeplace_freetime_id))
+//            throw new SuccessMessage([
+//                'errorMessage' => '预约成功'
+//            ]);
+//        else
+//            throw new FailMessage([
+//                'errorMessage' => '预约失败'
+//            ]);
     }
 
     /**
@@ -337,7 +370,53 @@ class Student extends Controller
      */
     public function queryReservation($student_id)
     {
-        return (new StudentTeacherModel())->queryItem($student_id);
+        return (new StudentTeacherModel())->queryItem($student_id, true);
+    }
+
+    public function cancelReservation()
+    {
+        $params = Request::instance()->post();
+        $timeplaceModel = new FreetimeFreeplaceModel();
+        $studentTeacherModel = new StudentTeacherModel();
+        $errmsg = array();
+
+        foreach ($params as $item) {
+            $freeplace_freetime_id = $item['freeplace_freetime_id'];
+            $teacher_id = $item['teacher_id'];
+            $student_id = $item['student_id'];
+
+            $res = $timeplaceModel->queryItem($freeplace_freetime_id, true)->getData();
+            $current = $res['current_student'];
+
+            if ($current == 0)
+                continue;
+
+            if ($timeplaceModel->updateCurrentNum($freeplace_freetime_id, --$current)) { // 如果添加人数成功就添加预约记录
+                $studentTeacherModel->deleteItem($student_id, $teacher_id, $freeplace_freetime_id);
+            } else { // 否则记录错误信息
+                array_push($errmsg, ['errorMessage' => 'freeplace_freetime_id为' . $freeplace_freetime_id . '教工号为' . $teacher_id . '取消预约失败']);
+            }
+
+        }
+
+        if (empty($errmsg))
+            throw new SuccessMessage(['errorMessage' => '取消预约成功']);
+        else
+            throw new FailMessage(['errorMessage' => $errmsg]);
+
+//            if ((new StudentTeacherModel())->deleteItem($student_id, $teacher_id, $freeplace_freetime_id))
+//            throw new SuccessMessage(['errorMessage' => '取消预约成功']);
+//        else
+//            throw new FailMessage(['errorMessage' => '取消预约失败']);
+    }
+
+    public function updateComment($student_id, $teacher_id, $freeplace_freetime_id, $comment)
+    {
+        if ((new StudentTeacherModel())->updateComment($student_id, $teacher_id, $freeplace_freetime_id, $comment)) {
+            throw new SuccessMessage(['errorMessage' => '评论成功']);
+        } else {
+            throw new FailMessage(['errorMessage' => '评论失败']);
+        }
     }
 
 }

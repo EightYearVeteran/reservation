@@ -27,12 +27,8 @@ class Common extends Controller
         return (new TeacherModel())->queryAllTeachers($college_id);
     }
 
-    /**
-     * @param $teacher_name
-     * 根据姓名搜索指定老师, 查询老师信息
-     */
     public function queryTeacher($teacher_name)
     {
-
+        return (new TeacherModel())->queryTeacherByName($teacher_name);
     }
 }
